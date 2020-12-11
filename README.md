@@ -1,5 +1,5 @@
 # RMSD-finder
-Computes the tranlation, rotation and permutation of atoms that minimize the **RMSD** between two atomic configurations. 
+Computes the tranlation, rotation and permutation of atoms that minimize the RMSD between two atomic configurations. 
 
 The **RMSD** is defined as:
 
@@ -13,14 +13,14 @@ The **mass-weighted RMSD** is defined as:
 The optimal translation is found trivially by superimposing the centers of mass of the two structures. 
 Given a permuation, the optimal rotation can be found using an algorithm based on quaternions. 
 Given a rotation, the optimal permutation is found using the Hungarian algorithm. 
-To solve the joint problem a set of initial rotations is used for each of which the optimal permuation and the rotation are determined iteratively until a converged solution is found. The lowest **RMSD** obtained out of all iterative optimizations is returned by the program.
+To solve the joint problem a set of initial rotations is used for each of which the optimal permuation and the rotation are determined iteratively until a converged solution is found. The lowest RMSD obtained out of all iterative optimizations is returned by the program.
 
 It can not be guaranteed, that a _globally_ optimal solution is found.
 Wether such a globally optimal solution is found depends crucially on the set of inital rotation that is used. 
-To minimize the numbers of rotations that have to be tried (and computation time) as well as the chance of not finding the truly optimal **RMSD**, lists of rotations that are evenly distributed over the space of all rotations are included in this code. 
+To minimize the numbers of rotations that have to be tried (and computation time) as well as the chance of not finding the truly optimal RMSD, lists of rotations that are evenly distributed over the space of all rotations are included in this code. 
 Lists are included for N = 100 to 2000 in steps of 100 and can be used with the command line flag `-n<num_rotations>`. More lists can be generated with the program `createQuaternionLists.f90`.
 
-In general the higher the **RMSD** between two structures and the more atoms are contained, the harder it is to find the optimal solution and hence more rotations are required.  
+In general the higher the RMSD between two structures and the more atoms are contained, the harder it is to find the optimal solution and hence more rotations are required.  
 
 
 
@@ -46,8 +46,11 @@ If true, the mass weighted RMSD definition is used.
 `<rotation-format>` specifies the format in which the rotation is printed.
 Can be either **Q** for quaternion (default), **M** for rotation Matrix or **A** for angle-axis representation.
 
+Please be careful using the command line arguments. Spaces between flags and values, as well as spaces in file names are at the moment not supported. 
+
 ## Assignment convention
-Atom number assignment(i) of structure A has been matched to atom i in structure B.
+The array (assignment(:)) is printed by the program.
+It means that atom number assignment(i) of structure A has been matched to atom i in structure B.
 
 
 ## Compiling the code
@@ -64,7 +67,7 @@ make
 ```
 
 
-# Reference
+## Reference
 An explanation of the algorithm can be found in the following paper. 
 Please cite this paper if you use this code in an academic setting.
 
