@@ -45,7 +45,7 @@ contains
 
         do i=1,n
             if (f(i)==0) then
-                call path(n, A, f, ff, u, v, c, i, j)
+                call path(n, A, ff, u, v, c, i, j)
                 call increase(n, f, ff, c, i, j)
             end if
         end do
@@ -150,10 +150,9 @@ contains
 
     end subroutine
 
-    subroutine path(n, A, f, ff, u, v, c, i, j)
+    subroutine path(n, A, ff, u, v, c, i, j)
         integer, intent(in) :: n
         real(dp), intent(in) :: A(n,n) ! cost matrix
-        integer, intent(inout) :: f(n) ! f(i) = column assigned to row i
         integer, intent(inout) :: ff(n) ! ff(i) = row assigned to column i
         real(dp), intent(inout) :: u(n) ! substracted from rows
         real(dp), intent(inout) :: v(n) ! substracted from columns
