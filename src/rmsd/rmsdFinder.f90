@@ -48,6 +48,7 @@ program rmsdFinder
     character(len=*), parameter :: version = '1.0'
     character(len=*), parameter :: helpText = &
       programName // ' (verions=' // version // '), written by Jonas A. Finkler' // nl // &
+      ' '// nl // &
       ' The source code for this program can be found here: https://github.com/Jonas-Finkler/RMSD-finder'// nl // &
       ' '// nl // &
       ' If you use this code, please cite:'// nl // &
