@@ -1,5 +1,5 @@
 # RMSD-finder
-Computes the tranlation, rotation and permutation of atoms that minimize the RMSD between two atomic configurations. 
+Computes the translation, rotation and permutation of atoms that minimizes the RMSD between two atomic configurations. 
 
 The **RMSD** is defined as:
 
