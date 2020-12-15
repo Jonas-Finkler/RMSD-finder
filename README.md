@@ -73,9 +73,9 @@ Please cite this paper if you use this code in an academic setting.
 
 
 _The Journal of Chemical Physics_ 152.16 (2020): 164106.   
-Finkler, Jonas A., and Stefan Goedecker. 
-"Funnel hopping Monte Carlo: An efficient method to overcome broken ergodicity."
-<https://doi.org/10.1063/5.0004106>
+Finkler, Jonas A., and Stefan Goedecker.  
+"Funnel hopping Monte Carlo: An efficient method to overcome broken ergodicity."  
+<https://doi.org/10.1063/5.0004106>   
 
 
 
