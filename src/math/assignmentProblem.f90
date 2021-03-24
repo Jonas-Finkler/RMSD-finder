@@ -88,7 +88,7 @@ contains
             end do
 
             v(j) = A(r,j)
-
+            
             if (f(r) == 0) then
                 ff(j) = r
                 f(r) = j
@@ -102,6 +102,7 @@ contains
             if (f(i) == 0) then
                 ! find j: a(i,j) = min(a(i,:) - v(:))
                 tmp = huge(A)
+                j = 1 ! initialize j, in case first iteration goes to tie braking (can happen if 'huge' is in A)
                 do k=1,n
                     if (A(i,k)-v(k) <= tmp) then
                         if (A(i,k)-v(k) == tmp) then ! break ties such that ff(r) == 0
