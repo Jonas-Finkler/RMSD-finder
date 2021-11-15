@@ -166,6 +166,10 @@ program rmsdFinder
             print*, 'Error: Unknown rotation format "' // argRotFormat%value // '"'
     end select
     print*, 'Assignment: ', assignment
+    if (argInversion%value) then
+        print*, 'Inversion: ', inv
+    end if
+
 
 
 
