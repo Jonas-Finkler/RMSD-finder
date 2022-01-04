@@ -120,13 +120,22 @@ contains
         nargs = command_argument_count()
 
         ! todo: Maybe allow spaced between argument and value
-        do iarg=1,nargs
+        iarg = 1
+        do while (iarg <= nargs)
             call get_command_argument(iarg, arg, arglen, argstatus)
             if (arg(1:1) /= '-') then
                 ! todo: print help message here
                 print*, "Arguments must beginn with '-'"
                 call stopProgram(argList)
                 stop
+            end if
+            if (arglen == 2) then
+                if (iarg == nargs) then
+                    print*, 'Error: missing value for argument ', trim(arg)
+                    stop
+                endif
+                iarg = iarg + 1
+                call get_command_argument(iarg, arg(3:), arglen, argstatus)
             end if
             if (arg(1:2) == '-h' .or. arg(1:3) == '--h') then
                 print*, argList%helpText
@@ -169,6 +178,7 @@ contains
                 print*, 'Error: Unknown argument ', arg
                 call stopProgram(argList)
             end if
+            iarg = iarg + 1
         end do
 
         do i=1, argList%nArgs
