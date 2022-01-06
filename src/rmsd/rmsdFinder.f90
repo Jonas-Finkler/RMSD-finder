@@ -199,6 +199,7 @@ program rmsdFinder
         atsCombined%el(:atsA%nat) = atsA%el(:)
         atsCombined%el(atsA%nat+1:) = atsB%el(:)
         call as_writeXYZ(argCombinedFile%value, atsCombined)
+        print*, 'Combined structures have been written to: ' // argCombinedFile%value
 
     end if
 
