@@ -129,14 +129,6 @@ contains
                 call stopProgram(argList)
                 stop
             end if
-            if (arglen == 2) then
-                if (iarg == nargs) then
-                    print*, 'Error: missing value for argument ', trim(arg)
-                    stop
-                endif
-                iarg = iarg + 1
-                call get_command_argument(iarg, arg(3:), arglen, argstatus)
-            end if
             if (arg(1:2) == '-h' .or. arg(1:3) == '--h') then
                 print*, argList%helpText
                 stop
@@ -144,6 +136,25 @@ contains
             if (arg(1:2) == '-v' .or. arg(1:3) == '--v') then
                 print*, 'Version: ' // argList%version
                 stop
+            end if
+            if (arglen == 2) then
+                if (iarg == nargs) then
+                    print*, 'Error: missing value for argument ', trim(arg)
+                    stop
+                else
+                    call get_command_argument(iarg + 1, tmpstring, arglen, argstatus)
+                    if (tmpstring(1:1) /= '-') then
+                        iarg = iarg + 1
+                        if (len(trim(tmpstring)) + 2 > len(arg)) then
+                            print*, 'Error: too long argument'
+                            stop
+                        end if
+                        arg(3:3+len(trim(tmpstring))) = trim(tmpstring)
+                    else
+                        print*, 'Error: missing value for argument ', trim(arg)
+                        stop
+                    end if
+                endif
             end if
             argExists = .false.
             do i=1, argList%nArgs
