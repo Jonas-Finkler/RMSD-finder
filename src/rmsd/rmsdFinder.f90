@@ -25,7 +25,7 @@ program rmsdFinder
     implicit none
 
     integer :: nquats
-    type(atStruct) :: atsA, atsB
+    type(atStruct) :: atsA, atsB, atsCombined
     integer, allocatable :: assignment(:)
     real(dp), allocatable :: quatList(:,:)
     real(dp) :: rmsd, q(4)
@@ -42,10 +42,11 @@ program rmsdFinder
     type(stringArgument) :: argOutFile
     type(logicalArgument) :: argMass
     type(stringArgument) :: argRotFormat
+    type(stringArgument) :: argCombinedFile
 
     character(len=*), parameter :: nl = new_line(' ')
     character(len=*), parameter :: programName = 'rmsdFinder'
-    character(len=*), parameter :: version = '1.0'
+    character(len=*), parameter :: version = '1.1'
     character(len=*), parameter :: helpText = &
       programName // ' (verions=' // version // '), written by Jonas A. Finkler' // nl // &
       ' '// nl // &
@@ -58,7 +59,7 @@ program rmsdFinder
       '   https://doi.org/10.1063/5.0004106'// nl // &
       ' '// nl // &
       ' Usage: ' // programName //' -A<structure-A> -B<structure-B> [-n<num-rotations>] [-i<use-inversion>]'// nl // &
-      '       [-o<out-structure>] [-m<use-mass-weighted-RMSD>] [-r<rotation-format>]'// nl // &
+      '       [-o<out-structure>] [-m<use-mass-weighted-RMSD>] [-r<rotation-format>] [-c<combined-file>]'// nl // &
       '   <structure-A> is translated, rotated and permuted to minimize the RMSD to <structure-B>'// nl // &
       '       All structures must be provided in xyz coordinates.'// nl // &
       '   <num-rotations> defines the number of rotations that are tried. The default is 2000. '// nl // &
@@ -67,7 +68,8 @@ program rmsdFinder
       '       that the true minimal RMSD is found.'// nl // &
       '   <use-inversion> can either be T (true) or F (false).'// nl // &
       '       If true, inverted structures are also considered when searching the minimal RMSD.'// nl // &
-      '   <out-structure> is the file to which the transformed copy of <structure-A> is saved'// nl // &
+      '   <out-structure> is the file to which the transformed copy of <structure-A> is saved.'// nl // &
+      '   <combine-file> if present, both structures are combined written into this file.' // nl // &
       '   <use-mass-weighted-RMSD> can either be T (true) or F (false).'// nl // &
       '       If true, the mass weighted RMSD definition is used: RMSD = sqrt((sum_i  m_i |R_i - r_i|^2) / N).'// nl // &
       '       Otherwise RMSD = sqrt((sum_i |R_i - r_i|^2) / N) is used.'// nl // &
@@ -104,6 +106,10 @@ program rmsdFinder
     argRotFormat%required = .false.
     argRotFormat%default = 'Q'
 
+    argCombinedFile%name = 'c'
+    argCombinedFile%required = .false.
+    argCombinedFile%default = 'combined.xyz'
+
     call initArgumentParser(argList, programName, helpText, version)
     call addArgument(argList, argnQuats)
     call addArgument(argList, argStructA)
@@ -112,6 +118,7 @@ program rmsdFinder
     call addArgument(argList, argOutFile)
     call addArgument(argList, argMass)
     call addArgument(argList, argRotFormat)
+    call addArgument(argList, argCombinedFile)
 
     call parseArguments(argList)
 
@@ -183,6 +190,17 @@ program rmsdFinder
         print*, 'Transformed structure (' // argStructA%value // ') has been written to: ' // argOutFile%value
     end if
 
+    if (argCombinedFile%wasFound) then
+        atsCombined%nat = atsA%nat + atsB%nat
+        allocate(atsCombined%ats(3,atsCombined%nat))
+        allocate(atsCombined%el(atsCombined%nat))
+        atsCombined%ats(:,:atsA%nat) = atsA%ats(:,:)
+        atsCombined%ats(:,atsA%nat+1:) = atsB%ats(:,:)
+        atsCombined%el(:atsA%nat) = atsA%el(:)
+        atsCombined%el(atsA%nat+1:) = atsB%el(:)
+        call as_writeXYZ(argCombinedFile%value, atsCombined)
+
+    end if
 
 
 end program rmsdFinder

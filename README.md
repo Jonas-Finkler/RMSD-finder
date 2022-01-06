@@ -25,7 +25,7 @@ In general the higher the RMSD between two structures and the more atoms are con
 
 
 ## Usage
-`rmsdFinder -A<structure-A> -B<structure-B> [-n<num-rotations>] [-i<use-inversion>] [-o<out-structure>] [-m<use-mass-weighted-RMSD>] [-r<rotation-format>]`
+`rmsdFinder -A<structure-A> -B<structure-B> [-n<num-rotations>] [-i<use-inversion>] [-o<out-structure>] [-m<use-mass-weighted-RMSD>] [-r<rotation-format>] [-c<combined-file>]`
 
 `<structure-A>` is translated, rotated and permuted to minimize the RMSD to `<structure-B>`
 All structures must be provided in xyz coordinates. 
@@ -38,7 +38,9 @@ that the true minimal RMSD is found.
 `<use-inversion>` can either be **T** (true) or **F** (false). 
 If true, inverted structures are also considered when searching the minimal RMSD.
        
-`<out-structure>` is the file to which the transformed copy of `<structure-A>` is saved
+`<out-structure>` is the file to which the transformed copy of `<structure-A>` is saved.
+
+`<combined-file>` if present, both structures are combined written into this file.
    
 `<use-mass-weighted-RMSD>` can either be **T** (true) or **F** (false).
 If true, the mass weighted RMSD definition is used.
@@ -52,6 +54,8 @@ Please be careful using the command line arguments. Spaces between flags and val
 The array (assignment(:)) is printed by the program.
 It means that atom number assignment(i) of structure A has been matched to atom i in structure B.
 
+## Rotation convention
+Rotations are performed around the center of mass if mass weighted RMSD is used or the average atom position if not.
 
 ## Compiling the code
 
