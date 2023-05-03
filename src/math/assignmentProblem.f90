@@ -71,16 +71,19 @@ contains
 
         ! phase 1
         do j=1,n
+            ! initialize, for the case of ties
+            r = 1
             ! find r: a(r,j) = min(a(:,j))
             tmp = huge(A)
             do k=1,n
-                if (A(k,j) < tmp) then
+                if (A(k,j) <= tmp) then
                     if (A(k,j) == tmp) then ! break ties such that f(r) == 0
                         if (f(r)/=0 .and. f(k)==0) then
                             r = k
                             tmp = A(k,j)
+                            ! else: no advantage of swapping. Keep previous r
                         end if
-                    else
+                    else ! A(k, j) < tmp -> choose it
                         r = k
                         tmp = A(k,j)
                     end if
@@ -121,11 +124,12 @@ contains
 
                 assign = ff(j) == 0
                 do while((.not. assign) .and. (j<=n))
-                    if (abs(A(i,j) - u(i) - v(j)) < eps) then ! todo: should be doable without use of eps?
+                    ! Included a check here if ff(j)/=0 to make sure ff(j) has been assigned already (for ints this would be always the case but for reals it is not necessarily true)
+                    if (abs(A(i,j) - u(i) - v(j)) <= eps .and. ff(j) /= 0) then 
                         r = ff(j)
                         k = p(r)
                         do while((.not.assign) .and. (k<=n))
-                            if (ff(k) == 0 .and. abs(a(r,k) - u(r) - v(k)) < eps) then
+                            if (ff(k) == 0 .and. abs(a(r,k) - u(r) - v(k)) <= eps) then
                                 assign = .true.
                                 f(r) = k
                                 ff(k) = r
