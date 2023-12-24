@@ -2,12 +2,14 @@
 Computes the translation, rotation and permutation of atoms that minimizes the RMSD between two atomic configurations. 
 
 The **RMSD** is defined as:
-
-<img src="https://render.githubusercontent.com/render/math?math=\mathbf{\mathrm{RMSD}}=\sqrt{\frac{\sum_{i=1}^{N} \Vert R_i - r_i\Vert^2}{N}}">
+```math
+\mathbf{\mathrm{RMSD}}=\sqrt{\frac{\sum {}_{i=1}^{N} \Vert R_i - r_i\Vert^2}{N}}
+```
 
 The **mass-weighted RMSD** is defined as:
-
-<img src="https://render.githubusercontent.com/render/math?math=\mathbf{\mathrm{RMSD}}=\sqrt{\frac{\sum_{i=1}^N  m_i \Vert R_i - r_i\Vert^2}{N}}">
+```math
+\mathbf{\mathrm{RMSD}}=\sqrt{\frac{\sum {}_{i=1}^N  m_i \Vert R_i - r_i\Vert^2}{N}}
+```
 
 
 The optimal translation is found trivially by superimposing the centers of mass of the two structures. 
