@@ -185,11 +185,12 @@ program rmsdFinder
     end if
     call as_reassign(atsA, assignment)
     call rotatePointSet(atsA%nat, atsA%ats, q)
-    call as_writeXYZ(argOutFile%value, atsA)
+
     ! test that this gives the correct results
     ! print*, 'RMSD', sqrt(sum((atsA%ats - atsB%ats)**2)/atsA%nat)
 
     if (argOutFile%wasFound) then
+    call as_writeXYZ(argOutFile%value, atsA)
         print*, 'Transformed structure (' // argStructA%value // ') has been written to: ' // argOutFile%value
     end if
 
