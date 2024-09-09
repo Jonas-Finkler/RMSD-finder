@@ -152,6 +152,7 @@ program rmsdFinder
     if (argInversion%value) then
         call as_findRmsd(atsA, atsB, nquats, quatList, 0._dp, argMass%value, q, assignment, rmsd, inv)
     else
+        inv = .false.
         call as_findRmsd(atsA, atsB, nquats, quatList, 0._dp, argMass%value, q, assignment, rmsd)
     end if
 
@@ -185,6 +186,8 @@ program rmsdFinder
     call as_reassign(atsA, assignment)
     call rotatePointSet(atsA%nat, atsA%ats, q)
     call as_writeXYZ(argOutFile%value, atsA)
+    ! test that this gives the correct results
+    ! print*, 'RMSD', sqrt(sum((atsA%ats - atsB%ats)**2)/atsA%nat)
 
     if (argOutFile%wasFound) then
         print*, 'Transformed structure (' // argStructA%value // ') has been written to: ' // argOutFile%value
