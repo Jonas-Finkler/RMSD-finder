@@ -178,15 +178,15 @@ program rmsdFinder
     end if
 
 
-
+    ! apply transformation (translation has already been removed)
+    if (inv) then
+      atsA%ats = -1._dp * atsA%ats
+    end if
+    call as_reassign(atsA, assignment)
+    call rotatePointSet(atsA%nat, atsA%ats, q)
+    call as_writeXYZ(argOutFile%value, atsA)
 
     if (argOutFile%wasFound) then
-        call as_reassign(atsA, assignment)
-        call rotatePointSet(atsA%nat, atsA%ats, q)
-        do i=1,atsA%nat
-            atsA%ats(:,i) = atsA%ats(:,i) - cmA + cmB
-        end do
-        call as_writeXYZ(argOutFile%value, atsA)
         print*, 'Transformed structure (' // argStructA%value // ') has been written to: ' // argOutFile%value
     end if
 
