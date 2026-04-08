@@ -190,7 +190,8 @@ program rmsdFinder
     ! print*, 'RMSD', sqrt(sum((atsA%ats - atsB%ats)**2)/atsA%nat)
 
     if (argOutFile%wasFound) then
-    call as_writeXYZ(argOutFile%value, atsA)
+!    call as_writeXYZ(argOutFile%value, atsA)
+     call assigned_writeXYZ(argOutFile%value, atsA, assignment)
         print*, 'Transformed structure (' // argStructA%value // ') has been written to: ' // argOutFile%value
     end if
 

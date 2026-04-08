@@ -20,11 +20,11 @@ module constants
     implicit none
 
     ! maximum element index
-    integer, parameter :: maxElemNum = 118
+    integer, parameter :: maxElemNum = 119
 
     real(dp), parameter :: PI = 4 * atan (1.0_dp)
 
-    character(len=2), parameter :: elemSymbols(118) = & ! from https://www.plaintextlist.com/science/list_of_chemical_elements_(symbols)
+    character(len=2), parameter :: elemSymbols(119) = & ! from https://www.plaintextlist.com/science/list_of_chemical_elements_(symbols)
             [' H', 'He', 'Li', 'Be', ' B', ' C', ' N', ' O', ' F', 'Ne', 'Na', 'Mg', 'Al', 'Si', ' P', ' S', &
              'Cl', 'Ar', ' K', 'Ca', 'Sc', 'Ti', ' V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', &
              'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', ' Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', &
@@ -32,11 +32,11 @@ module constants
              'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Hf', 'Ta', ' W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', &
              'Tl', 'Pb', 'Bi', 'Po', 'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Th', 'Pa', ' U', 'Np', 'Pu', 'Am', 'Cm', &
              'Bk', 'Cf', 'Es', 'Fm', 'Md', 'No', 'Lr', 'Rf', 'Db', 'Sg', 'Bh', 'Hs', 'Mt', 'Ds', 'Rg', 'Cn', &
-             'Nh', 'Fl', 'Mc', 'Lv', 'Ts', 'Og']
+             'Nh', 'Fl', 'Mc', 'Lv', 'Ts', 'Og', 'LJ']
 
     ! these are the average weights for the isotope distribution as found on earth
     ! maybe the weight of the most common isotope would make more sense?
-    real(dp), parameter :: atomicMasses(118) = & ! from https://www.qmul.ac.uk/sbcs/iupac/AtWt/index.html#02 (2019)
+    real(dp), parameter :: atomicMasses(119) = & ! from https://www.qmul.ac.uk/sbcs/iupac/AtWt/index.html#02 (2019)
             [   1.008_dp,    4.002_dp,     6.94_dp,    9.012_dp,    10.81_dp,   12.011_dp,   14.007_dp,   15.999_dp, &
                18.998_dp,  20.1797_dp,   22.989_dp,   24.305_dp,   26.981_dp,   28.085_dp,   30.973_dp,    32.06_dp, &
                 35.45_dp,   39.948_dp,  39.0983_dp,   40.078_dp,   44.955_dp,   47.867_dp,  50.9415_dp,  51.9961_dp, &
@@ -51,7 +51,7 @@ module constants
                  227._dp, 232.0377_dp,  231.035_dp,  238.028_dp,     237._dp,     244._dp,     243._dp,     247._dp, &
                  247._dp,     251._dp,     252._dp,     257._dp,     258._dp,     259._dp,     262._dp,     267._dp, &
                  270._dp,     269._dp,     270._dp,     270._dp,     278._dp,     281._dp,     281._dp,     285._dp, &
-                 286._dp,     289._dp,     289._dp,     293._dp,     293._dp,     294._dp ]
+                 286._dp,     289._dp,     289._dp,     293._dp,     293._dp,     294._dp,    1._dp ]
 
 
 contains
@@ -67,7 +67,7 @@ contains
     function elemNumToSym(n) result(sym)
         integer, intent(in) :: n
         character(len=2) :: sym
-        if (n>118) stop "no data for elements > 118 available"
+        if (n>119) stop "no data for elements > 119 available"
         sym = elemSymbols(n)
     end function elemNumToSym
 
@@ -76,7 +76,7 @@ contains
         integer :: n
         integer :: i
 
-        do i=1,118
+        do i=1,119
             if (trim(adjustl(sym)) == trim(adjustl(elemSymbols(i)))) then
                 n = i
                 return

@@ -168,6 +168,28 @@ contains
 
     end subroutine as_writeXYZ
 
+    subroutine assigned_writeXYZ(filename, ats, assignment)
+        character(len = *), intent(in) :: filename
+        type(atStruct), intent(in) :: ats
+
+        integer , dimension(ats%nat) :: assignment
+        integer :: i, filestat
+
+        open(41, file = filename, iostat = filestat, action = "write")
+        if(filestat == 0) then
+            write(41, *) ats%nat
+            write(41, *)
+            do i = 1, ats%nat
+                ! todo: test format statement
+                write(41, '(A2,3E15.6)') elemNumToSym(ats%el(i)), ats%ats(:, assignment(i))
+            end do
+            close(41)
+        else
+            stop "could not open file"
+        end if
+
+    end subroutine assigned_writeXYZ
+
     subroutine as_elemCount(ats, nelem)
         type(atStruct), intent(in) :: ats
         integer, intent(out) :: nelem(maxElemNum)
